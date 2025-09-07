@@ -1,6 +1,8 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
+from sklearn.metrics import mean_squared_error, root_mean_squared_error, r2_score
+
 
 
 import numpy as np
@@ -134,24 +136,6 @@ class LinearRegressorGD:
         Xn = self._prepare_X(X)
         return Xn @ self.w_ + self.b_
 
-    @staticmethod
-    def mse(y_true, y_pred):
-        y_true = np.asarray(y_true, float).ravel()
-        y_pred = np.asarray(y_pred, float).ravel()
-        return float(np.mean((y_true - y_pred) ** 2))
-
-    @staticmethod
-    def rmse(y_true, y_pred):
-        return float(np.sqrt(LinearRegressorGD.mse(y_true, y_pred)))
-
-    @staticmethod
-    def r2(y_true, y_pred):
-        y_true = np.asarray(y_true, float).ravel()
-        y_pred = np.asarray(y_pred, float).ravel()
-        ss_res = float(np.sum((y_true - y_pred) ** 2))
-        ss_tot = float(np.sum((y_true - np.mean(y_true)) ** 2))
-        return 1.0 - ss_res / ss_tot if ss_tot > 0 else np.nan
-
     def get_params(self):
         return {
             "alpha": self.alpha,
@@ -191,9 +175,9 @@ if __name__ == "__main__":
 
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
-    print("MSE :", model.mse(y_test, y_pred))
-    print("RMSE:", model.rmse(y_test, y_pred))
-    print("R²  :", model.r2(y_test, y_pred))
+    print("MSE :", mean_squared_error(y_test, y_pred))
+    print("RMSE:", root_mean_squared_error(y_test, y_pred))
+    print("R²  :", r2_score(y_test, y_pred))
 
     # Inspect learned params & training curve
     print("w shape:", model.w_.shape, " b:", model.b_)
