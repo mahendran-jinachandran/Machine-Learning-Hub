@@ -3,10 +3,6 @@ import pandas as pd
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_squared_error, root_mean_squared_error, r2_score
 
-
-
-import numpy as np
-
 class LinearRegressorGD:
     def __init__(self, alpha=1e-2, n_iters=1000, normalize=True, tol=0.0, random_state=None, verbose=False):
         self.alpha = alpha
